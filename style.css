@@ -21,10 +21,10 @@ body {
   padding: 22px;
   display: flex;
   flex-direction: column;
-  gap: 23px;
+  gap: 30px;
   width: 23vw;
   box-sizing: border-box;
-  height: 22vh;
+  height: 20vh;
   /* border:2px solid red; */
   background-color: #121212;
   border-radius: 8px;
@@ -48,15 +48,13 @@ body {
   color: white;
   cursor: pointer;
 }
-.search:hover > img {
-  color: white;
-}
+
 .library {
   padding: 20px;
   box-sizing: border-box;
   background-color: #121212;
   margin-top: 0.6vw;
-  height: 74vh;
+  height: 76vh;
   width: 23vw;
   border-radius: 8px;
 }
@@ -103,64 +101,26 @@ body {
   position: relative;
 }
 .nav {
-  padding: 18px;
-  height: 5vh;
+  /* padding: 18px; */
+  box-sizing: border-box;
+  height: 10vh;
   background-color: #121212;
   border-radius: 8px 8px 0px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.arrows {
-  display: flex;
-  width: 10vw;
-  gap: 8px;
+.nav img{
+  padding:0px 30px;
 }
-.arrowleft {
-  height: 33px;
-  width: 33px;
-  background-color: #090909;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.sidebar img{
+  display:none;
+  width:35px;
+  height:35px;
+  filter:invert();
+  fill:white;
 }
-.arrowright {
-  height: 33px;
-  width: 33px;
-  background-color: #090909;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.navbuttons {
-  display: flex;
-  gap: 30px;
-  align-items: center;
-  margin-right: 30px;
-}
-.btn1 {
-  background-color: #101010;
-  color: #9b9494;
-  font-size: 16px;
-  font-weight: bold;
-}
-.btn1:hover {
-  color: white;
-  scale: 1.1;
-  cursor: pointer;
-}
-.btn2 {
-  padding: 14px 32px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: bold;
-}
-.btn2:hover {
-  scale: 1.04;
-  cursor: pointer;
-}
+
 
 /* albumcards */
 .albumcards{
@@ -231,8 +191,9 @@ body {
   position:absolute;
   z-index:10;
   bottom:10vh;
+  left:0;
   height:0.3rem;
-  width:100%;
+  width:99.7%;
   border-radius: 10px;
   background-color:rgb(132, 128, 128);
   border:2px solid whitesmoke;
@@ -265,6 +226,9 @@ body {
   justify-content: center;
   align-items: center;
   gap:1rem;
+  align-self:center;
+  /* position:fixed;
+  left:58%; */
 }
 .playbar img:hover{
   cursor:pointer;
@@ -272,5 +236,35 @@ body {
 .seekbar:hover{
   cursor:pointer;
 }
+.volume{
+  display:flex;
+  align-items: center;
+  gap:5px;
+}
+ .volume input[type="range"]{
+  width:7rem;
+  accent-color: #1eb760;
+  cursor:pointer;
+ }
+.songname{
+  display:flex;
+  align-items: center;
+  gap:8px;
+}
+.midplaybar{
+  display: flex;
+  gap:40px;
+}
+
+
+
+
+
+/* responsive */
+
+@media only screen and (max-width:500px) {
+  
+}
+
 
 
