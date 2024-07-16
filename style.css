@@ -266,6 +266,8 @@ body {
   box-sizing: border-box;
 }
 .songname img {
+  width: 25px;
+  height:25px;
   scale: 2;
   user-select: none;
   animation: songnameanim 2s linear infinite;
