@@ -7,36 +7,41 @@ let closeupnext = document.querySelector(".closeupnext");
 const mediaquery = window.matchMedia("(max-width:450px)");
 let playbar = document.querySelector(".playbar");
 
-sidebar.addEventListener("click",()=>{
+sidebar.addEventListener("click", () => {
     side1.style.width = "80svw";
     side1.style.visibility = "visible";
 })
 
-closebar.addEventListener("click",()=>{
+closebar.addEventListener("click", () => {
     side1.style.width = "0svw";
-    side1.style.visibility= "hidden";
+    side1.style.visibility = "hidden";
 })
-if(mediaquery.matches){
-    playbar.addEventListener("click",()=>{
-        upnextbar.style.height = "79svh";
-        upnextbar.style.visibility = "visible";
+if (mediaquery.matches) {
+    playbar.addEventListener("click", () => {
+        if (upnextbar.style.visibility === "hidden") {
+            upnextbar.style.height = "79svh";
+            upnextbar.style.visibility = "visible";
+        } else {
+            upnextbar.style.height = "0";
+            upnextbar.style.visibility = "hidden";
+        }
     })
-    closeupnext.addEventListener("click",()=>{
-        upnextbar.style.height= "0";
+    closeupnext.addEventListener("click", () => {
+        upnextbar.style.height = "0";
         upnextbar.style.visibility = "hidden";
     })
 }
-else{
-    upnexticon.addEventListener("click",()=>{
-    if(upnextbar.classList.contains("upnextopen")){
-    upnextbar.classList.remove("upnextopen")
+else {
+    upnexticon.addEventListener("click", () => {
+        if (upnextbar.classList.contains("upnextopen")) {
+            upnextbar.classList.remove("upnextopen")
 
-    }else{
-        upnextbar.classList.add("upnextopen")
-    }
-})
+        } else {
+            upnextbar.classList.add("upnextopen")
+        }
+    })
 
-closeupnext.addEventListener("click",()=>{
-    upnextbar.classList.remove("upnextopen")
-})
+    closeupnext.addEventListener("click", () => {
+        upnextbar.classList.remove("upnextopen")
+    })
 }

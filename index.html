@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="actualbody">
-      <div class="side1">
+      <div class="side1" style="transition:all 0.5s ease-in-out;">
         <div class="logosection">
           <div class="close"><img src="./svgs/close.svg" alt=""></div>
           <div class="home">
@@ -16,7 +16,7 @@
          <h4>Home</h4></span>
           </div>
           <div class="search">
-        <img src="/svgs/search.svg" alt="" />
+        <img src="./svgs/search.svg" alt="" />
          <h4>Search</h4>
           </div>
         </div>
@@ -159,8 +159,7 @@
          </div>
         <!-- seekbar start -->
          <div class="seekbar">
-          <div class="seekline"></div>
-          <div class="seekcircle"></div>
+          <input type="range" name="seekbar" min="0" max="100" value="40">
           </div>
 
           <!-- playbar -->
@@ -180,7 +179,7 @@
               </div>
               <div class="volume">
                 <img src="./svgs/volume.svg" alt="">
-                <input type="range" name="volume">
+                <input type="range" name="volume" min="0" max="100" value="30">
               </div>
               <div class="upnexticon">
                 <img src="./svgs/upnext.png" alt="">
