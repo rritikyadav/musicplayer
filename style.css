@@ -3,9 +3,6 @@
   padding: 0;
   user-select: none;
 }
-* img{
-  user-select: none;
-}
 
 body {
   background-color: black;
@@ -87,6 +84,7 @@ body {
   border-radius: 20px;
   padding: 5px;
   width: 12vw;
+  transition:background-color 0.2s ease-in-out;
 }
 .artist img {
   width: 35px;
@@ -178,15 +176,15 @@ body {
   height: 25vh;
   width: 10vw;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius:10px;
   margin: 0px auto;
   user-select: none;
 }
 .card h3 {
-  padding: 0px 20px;
+  padding: 0px 0px 0px 20px;
 }
 .card p {
-  padding: 0px 20px;
+  padding: 0px 0px 0px 20px;
   color: #b3b3b3;
 }
 
@@ -300,25 +298,35 @@ body {
   border-radius: 10px;
   display:flex;
   flex-direction: column;
-  gap:2rem;
-  padding:10px 10px 0px 20px;
+  gap:1.5rem;
+  padding:10px 10px 20px 20px;
   box-sizing: border-box;
   position: absolute;
   right:2vh;
   bottom:15vh;
   z-index: 10;
   transition: all 0.2s ease-in-out;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 .upnextopen{
   width:23vw;
   visibility:visible;
 }
-.upnext img{
+.upnext > img{
   width:25px;
   height:25px;
   align-self: flex-end;
   cursor: pointer;
-  user-select: none;
+  /* user-select: none; */
+}
+.now{
+  position:absolute;
+  left:35%;
+  top:10px;
+  font-size:1.1rem;
+  font-weight: 700;
+  word-spacing: 0.2rem;
 }
 .albumname{
   display:flex;
@@ -333,12 +341,28 @@ body {
 }
 .nextsongs{
   display:flex;
+  flex-direction: column;
+  gap:0.4rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding-left:40px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+}
+.nextsong{
+  width:fit-content;
+  padding:10px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  display:flex;
   align-items: center;
   gap:0.7rem;
   box-sizing: border-box;
   cursor: pointer;
-  padding-left:40px;
-  box-sizing: border-box;
+  transition:background-color 0.2s ease-in-out;
+}
+.nextsong:hover{
+  background-color:#2e2d2d;
 }
 .nextsongs img{
   width:30px;
@@ -620,7 +644,7 @@ body {
   z-index: 10;
   transition: all 0.2s ease-in-out;
 }
-.upnext img{
+.upnext > img{
   width:25px;
   height:25px;
   align-self: flex-end;
@@ -640,12 +664,25 @@ body {
 }
 .nextsongs{
   display:flex;
+  flex-direction: column;
+  gap:0.4rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding-left:40px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+}
+.nextsong{
+  width:fit-content;
+  padding:10px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  display:flex;
   align-items: center;
   gap:0.7rem;
   box-sizing: border-box;
   cursor: pointer;
-  padding-left:40px;
-  box-sizing: border-box;
+  transition:background-color 0.2s ease-in-out;
 }
 .nextsongs img{
   width:30px;
