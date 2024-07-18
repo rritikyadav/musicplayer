@@ -1,20 +1,19 @@
 let currentsong = new Audio();
 let curralbum;
 let albumnaam;
-let allsongs;
+let gaanaz;
 
 
 
 
 // getting all songs from api
 let getallsongs = async (albums)=>{
-    //  curralbum = albums;
     let songs = await fetch(`${albums}`);
     let response = await songs.text();
     let div = document.createElement("div");
     div.innerHTML=response;
     let as = div.getElementsByTagName("a");
-    allsongs =[];
+    let allsongs =[];
     for (let index = 0; index < as.length; index++) {
         const e = as[index];
         
@@ -58,6 +57,7 @@ let albumname = document.querySelector(".albumname");
             playmusic(e.querySelector(".nextsong p").innerHTML + ".mp3")
         })
       })
+      return allsong;
     }
     
 
@@ -90,17 +90,18 @@ let displayalbums = async ()=>{
     let cards = document.querySelectorAll(".card");
     cards.forEach((e)=>{
         e.addEventListener("click",async item=>{
-           allsongs =  await displayupnext(`./songs/${item.currentTarget.dataset.name}`);
+            gaanaz =  await displayupnext(`./songs/${item.currentTarget.dataset.name}`);
            if(mediaquery.matches){
             upnextbar.style.height = "79svh";
             upnextbar.style.visibility = "visible";
            }else{
                upnextbar.classList.add("upnextopen")
             }
+        console.log(gaanaz)
+
         })
+        console.log(gaanaz)
     })
-
-
 }
 displayalbums();
 
@@ -109,7 +110,9 @@ displayalbums();
   let playmusic = (gaana)=>{
     currentsong.src = `./${curralbum}/` + gaana;
     currentsong.play();
-    play.src = "./svgs/pause.svg"
+    play.src = "./svgs/pause.svg";
+    currentsong.volume = 10 / 100;
+    volume.value = 10;
 }
 
 // play pause button
@@ -127,19 +130,35 @@ play.addEventListener("click",(e)=>{
 // volume setting
 
 let volume = document.querySelector(".volume input");
+let volumeimg = document.querySelector(".volume img")
 volume.addEventListener("change",()=>{
     currentsong.volume =volume.value / 100;
-    console.log(currentsong.volume)
-    if(currentsong.volume === 0){
-        volume.img.src = "./svgs/mute.svg"
+    if(volume.value == 0){
+        volumeimg.src = "./svgs/mute.svg";
+    }else{
+        volumeimg.src = "./svgs/volume.svg";
+    }
+})
+
+// mute song
+volumeimg.addEventListener("click",()=>{
+    if(volumeimg.src.includes("/volume.svg")){
+        volumeimg.src = "./svgs/mute.svg";
+        currentsong.volume = 0;
+        volume.value = 0
+    }else{
+        volumeimg.src = "./svgs/volume.svg";
+        currentsong.volume = 30 / 100;
+        volume.value = 30
     }
 })
 
 // seekbar 
 let seekbar = document.querySelector(".seekbar input")
 seekbar.addEventListener("change",(e)=>{
-    console.log(e)
+
 })
+
 
 
 
