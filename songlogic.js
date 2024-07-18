@@ -84,11 +84,14 @@ let displayalbums = async ()=>{
     }
     let cards = document.querySelectorAll(".card");
     cards.forEach((e)=>{
-        console.log(e)
         e.addEventListener("click",async item=>{
-            console.log("fetching")
-            console.log(item.currentTarget.dataset.name)
            allsongs =  await displayupnext(`./songs/${item.currentTarget.dataset.name}`);
+           if(mediaquery.matches){
+            upnextbar.style.height = "79svh";
+            upnextbar.style.visibility = "visible";
+           }else{
+               upnextbar.classList.add("upnextopen")
+            }
         })
     })
 
