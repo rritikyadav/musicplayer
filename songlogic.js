@@ -1,20 +1,20 @@
-let currentsong;
-let albumnaam;
+let currentsong = new Audio();
 let curralbum;
+let albumnaam;
+let allsongs;
 
 
 
 
 // getting all songs from api
 let getallsongs = async (albums)=>{
-    console.log(albums)
-     curralbum = albums;
-    let songs = await fetch(`./${albums}`);
+    //  curralbum = albums;
+    let songs = await fetch(`${albums}`);
     let response = await songs.text();
     let div = document.createElement("div");
     div.innerHTML=response;
     let as = div.getElementsByTagName("a");
-    let allsongs =[];
+    allsongs =[];
     for (let index = 0; index < as.length; index++) {
         const e = as[index];
         
@@ -26,14 +26,14 @@ return allsongs;
     
 }
 
-let displayupnext = async (album) => {
-    curralbum = album;
-    let allsongs = await getallsongs(`${album}`);
+let displayupnext = async (albums) => {
+    curralbum = albums;
+    let allsong = await getallsongs(`${albums}`);
 
 
 // changing album name in upnext
 let albumname = document.querySelector(".albumname");
-    for (let song of allsongs) {
+    for (let song of allsong) {
          albumnaam = song.split("/").slice(4)[0].replaceAll("%20"," ");
     }
     albumname.innerHTML = "";
@@ -42,9 +42,9 @@ let albumname = document.querySelector(".albumname");
       // changing songs name in up next
       let nextsongs = document.querySelector(".nextsongs");
       nextsongs.innerHTML =""
-      for (let song of allsongs) {
+      for (let song of allsong) {
           
-           song = song.split("/").slice(5)[0].split("-").slice(0)[0].replaceAll("%20"," ");
+           song = song.split("/").slice(5)[0].split("-").slice(0)[0].replaceAll("%20"," ").replaceAll(".mp3","");
               if(song.endsWith(".mp3")){
                    song = song.split(" ").splice(0,2).toString().replaceAll(","," ")
               }
@@ -53,29 +53,31 @@ let albumname = document.querySelector(".albumname");
                 <p>${song}</p>
                 </div>`
       }
+      let g = document.querySelectorAll(".nextsong").forEach((e)=>{
+        e.addEventListener("click",()=>{
+            playmusic(e.querySelector(".nextsong p").innerHTML + ".mp3")
+        })
+      })
+    }
     
-}
 
 // display all album in the songs folder:-
 let albumcards = document.querySelector(".albumcards")
 let displayalbums = async ()=>{
     let f  = await fetch(`./songs`);
     let response = await f.text();
-    console.log(response)
     let div = document.createElement("div");
     div.innerHTML = response;
     let as = div.getElementsByTagName("a");
     for (let index = 0; index < as.length; index++) {
         const e = as[index];
         if(e.href.includes("/songs/")){
-            console.log(e.href.split("/"))
             let albums = e.href.split("/").slice(4)[0].replaceAll("%20"," ");
-            console.log(albums)
             let i = await fetch(`./songs/${albums}/info.json`);
             let inf = await i.json();
 
             albumcards.innerHTML = albumcards.innerHTML + `<div data-name ="${albums}" class="card">
-            <img class="playsvg" src="./svgs/play.svg" alt="">
+            <img class="playsvg" src="./svgs/cardplay.svg" alt="">
             <div class="cardimg">
               <img src="./songs/${albums}/cover.jpg" alt="">
             </div>
@@ -101,6 +103,43 @@ let displayalbums = async ()=>{
 
 }
 displayalbums();
+
+
+  // playmusic fucntion
+  let playmusic = (gaana)=>{
+    currentsong.src = `./${curralbum}/` + gaana;
+    currentsong.play();
+    play.src = "./svgs/pause.svg"
+}
+
+// play pause button
+let play = document.querySelector("#play");
+play.addEventListener("click",(e)=>{
+    if(currentsong.paused){
+        currentsong.play();
+        play.src = "./svgs/pause.svg"
+    }else{
+        currentsong.pause();
+         play.src = "./svgs/play.svg"
+    }
+})
+
+// volume setting
+
+let volume = document.querySelector(".volume input");
+volume.addEventListener("change",()=>{
+    currentsong.volume =volume.value / 100;
+    console.log(currentsong.volume)
+    if(currentsong.volume === 0){
+        volume.img.src = "./svgs/mute.svg"
+    }
+})
+
+// seekbar 
+let seekbar = document.querySelector(".seekbar input")
+seekbar.addEventListener("change",(e)=>{
+    console.log(e)
+})
 
 
 

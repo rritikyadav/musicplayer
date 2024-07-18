@@ -255,7 +255,6 @@ body {
   cursor: pointer;
   height:2px;
 }
-
 .songname {
   display: flex;
   align-items: center;
@@ -671,6 +670,7 @@ body {
   padding-left:40px;
   padding-bottom: 5px;
   box-sizing: border-box;
+  user-select: none;
 }
 .nextsong{
   width:fit-content;
@@ -683,6 +683,7 @@ body {
   box-sizing: border-box;
   cursor: pointer;
   transition:background-color 0.2s ease-in-out;
+  user-select: none;
 }
 .nextsongs img{
   width:30px;
