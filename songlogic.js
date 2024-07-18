@@ -61,13 +61,16 @@ let albumcards = document.querySelector(".albumcards")
 let displayalbums = async ()=>{
     let f  = await fetch(`./songs`);
     let response = await f.text();
+    console.log(response)
     let div = document.createElement("div");
     div.innerHTML = response;
     let as = div.getElementsByTagName("a");
     for (let index = 0; index < as.length; index++) {
         const e = as[index];
-        if(e.href.includes("/songs")){
+        if(e.href.includes("/songs/")){
+            console.log(e.href.split("/"))
             let albums = e.href.split("/").slice(4)[0].replaceAll("%20"," ");
+            console.log(albums)
             let i = await fetch(`./songs/${albums}/info.json`);
             let inf = await i.json();
 
