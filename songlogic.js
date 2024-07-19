@@ -1,7 +1,7 @@
 let currentsong = new Audio();
 let curralbum;
 let albumnaam;
-let gaanaz;
+let gaanaz = [];
 
 
 
@@ -14,17 +14,18 @@ let getallsongs = async (albums)=>{
     div.innerHTML=response;
     let as = div.getElementsByTagName("a");
     let allsongs =[];
+    // gaanaz = []
     for (let index = 0; index < as.length; index++) {
         const e = as[index];
         
     if(e.href.endsWith(".mp3")){
         allsongs.push(e.href)
+        // gaanaz.push(e.href)
     }
 }
 return allsongs;
     
 }
-
 let displayupnext = async (albums) => {
     curralbum = albums;
     let allsong = await getallsongs(`${albums}`);
@@ -40,13 +41,15 @@ let albumname = document.querySelector(".albumname");
       <h4>${albumnaam}</h4>`
       // changing songs name in up next
       let nextsongs = document.querySelector(".nextsongs");
-      nextsongs.innerHTML =""
+      nextsongs.innerHTML ="";
+      gaanaz =[];
       for (let song of allsong) {
           
            song = song.split("/").slice(5)[0].split("-").slice(0)[0].replaceAll("%20"," ").replaceAll(".mp3","");
               if(song.endsWith(".mp3")){
                    song = song.split(" ").splice(0,2).toString().replaceAll(","," ")
-              }
+                }
+                gaanaz.push(song);
               nextsongs.innerHTML = nextsongs.innerHTML + `<div class="nextsong">
                 <img src="./songs/${albumnaam}/cover.jpg" alt="">
                 <p>${song}</p>
@@ -90,34 +93,33 @@ let displayalbums = async ()=>{
     let cards = document.querySelectorAll(".card");
     cards.forEach((e)=>{
         e.addEventListener("click",async item=>{
-            gaanaz =  await displayupnext(`./songs/${item.currentTarget.dataset.name}`);
+           let  g =  await displayupnext(`./songs/${item.currentTarget.dataset.name}`);
            if(mediaquery.matches){
             upnextbar.style.height = "79svh";
             upnextbar.style.visibility = "visible";
            }else{
                upnextbar.classList.add("upnextopen")
             }
-        console.log(gaanaz)
 
         })
-        console.log(gaanaz)
     })
 }
 displayalbums();
 
-
   // playmusic fucntion
   let playmusic = (gaana)=>{
+    // duration.innerHTML = ""
     currentsong.src = `./${curralbum}/` + gaana;
     currentsong.play();
     play.src = "./svgs/pause.svg";
-    currentsong.volume = 10 / 100;
-    volume.value = 10;
+    currentsong.volume = 100 / 100;
+    volume.value = 100;
 }
 
 // play pause button
 let play = document.querySelector("#play");
 play.addEventListener("click",(e)=>{
+    // e.stopPropagation();
     if(currentsong.paused){
         currentsong.play();
         play.src = "./svgs/pause.svg"
@@ -141,22 +143,93 @@ volume.addEventListener("change",()=>{
 })
 
 // mute song
+let vol;
 volumeimg.addEventListener("click",()=>{
     if(volumeimg.src.includes("/volume.svg")){
         volumeimg.src = "./svgs/mute.svg";
+        vol = currentsong.volume 
         currentsong.volume = 0;
         volume.value = 0
     }else{
         volumeimg.src = "./svgs/volume.svg";
-        currentsong.volume = 30 / 100;
-        volume.value = 30
+        currentsong.volume = vol
+        volume.value = vol*100;
     }
 })
 
 // seekbar 
 let seekbar = document.querySelector(".seekbar input")
-seekbar.addEventListener("change",(e)=>{
+seekbar.addEventListener("change",(e)={
+    
+})
 
+// next button
+let nextbtn = document.querySelector("#next");
+nextbtn.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    let a=gaanaz;
+    let i = a.indexOf(currentsong.src.split("/").slice(5)[0].replaceAll("%20"," ").replaceAll(".mp3",""))
+    if((i+1) <a.length){
+        playmusic(a[i+1] + ".mp3");
+    }
+})
+
+// previous button
+let prevbtn  = document.querySelector("#previous");
+prevbtn.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    let a1 = gaanaz;
+    let idx = a1.indexOf(currentsong.src.split("/").slice(5)[0].replaceAll("%20"," ").replaceAll(".mp3",""));
+    if((idx-1)>=0){
+        playmusic(a1[idx-1] + ".mp3");
+    }
+})
+
+
+// edit duration of the song
+function secondsToMinutesAndSeconds(seconds) {
+    if(isNaN(seconds) || seconds <0){
+        return "00:00";
+    }
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+
+    // Pad with leading zeros if needed
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
+// updating time and changing seekbar in playbar
+let songtime = document.querySelector(".runsongtime");
+let duration = document.querySelector(".duration");
+currentsong.addEventListener("timeupdate",()=>{
+    songtime.innerHTML = `${secondsToMinutesAndSeconds(currentsong.currentTime)}`;
+    duration.innerHTML = `${secondsToMinutesAndSeconds(currentsong.duration)}`;
+    seekbar.value = Math.floor((currentsong.currentTime / currentsong.duration) * 500);
+})
+
+
+// loop on album
+currentsong.onended = ()=>{
+    let a=gaanaz;
+    let i = a.indexOf(currentsong.src.split("/").slice(5)[0].replaceAll("%20"," ").replaceAll(".mp3",""))
+    if((i+1) <a.length){
+        playmusic(a[i+1] + ".mp3");
+    }
+}
+
+document.addEventListener("keydown",(e)=>{
+    if (e.code === 'space' || e.key === " "){
+        console.log("dabb gya")
+        if(currentsong.paused){
+            currentsong.play();
+            play.src = "./svgs/pause.svg"
+        }else{
+            currentsong.pause();
+             play.src = "./svgs/play.svg"
+        } 
+    }
 })
 
 
