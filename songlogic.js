@@ -2,6 +2,7 @@ let currentsong = new Audio();
 let curralbum;
 let albumnaam;
 let gaanaz = [];
+let inf;
 
 
 
@@ -51,6 +52,7 @@ let albumname = document.querySelector(".albumname");
                 }
                 gaanaz.push(song);
               nextsongs.innerHTML = nextsongs.innerHTML + `<div class="nextsong">
+                <img src="./svgs/songplaying.gif" width="15px" height="15px" style="display:none">
                 <img src="./songs/${albumnaam}/cover.jpg" alt="">
                 <p>${song}</p>
                 </div>`
@@ -77,7 +79,7 @@ let displayalbums = async ()=>{
         if(e.href.includes("/songs/")){
             let albums = e.href.split("/").slice(4)[0].replaceAll("%20"," ");
             let i = await fetch(`./songs/${albums}/info.json`);
-            let inf = await i.json();
+            inf = await i.json();
 
             albumcards.innerHTML = albumcards.innerHTML + `<div data-name ="${albums}" class="card">
             <img class="playsvg" src="./svgs/cardplay.svg" alt="">
@@ -107,26 +109,49 @@ let displayalbums = async ()=>{
 displayalbums();
 
   // playmusic fucntion
+  let songname = document.querySelector(".songname p");
+  let songnameimg = document.querySelector(".songname img");
+//   let nextsongp = document.querySelectorAll(".nextsong p");
+  songname.innerText = "select Your Song";
   let playmusic = (gaana)=>{
-    // duration.innerHTML = ""
     currentsong.src = `./${curralbum}/` + gaana;
     currentsong.play();
     play.src = "./svgs/pause.svg";
-    currentsong.volume = 100 / 100;
-    volume.value = 100;
+    songname.innerText = gaana.replaceAll(".mp3","")+ "" + "-" + "" + `${curralbum}`.replace("./songs/","");
+    songnameimg.src = `./${curralbum}/cover.jpg`;
+    songnameimg.classList.add("imganim");
+    songnameimg.classList.add("imgfil");
+
+    let now = gaana.replaceAll(".mp3","").replaceAll(" ","");
+    console.log(now)
+    let nextsong  = document.querySelectorAll(".nextsong");
+
+    nextsong.forEach((n)=>{
+            n.children[0].style.display = "none";
+            let x = n.children[2].innerText.replaceAll(" ","");
+            console.log(x)
+            if( now === x){
+                console.log(x)
+                n.children[0].style.display = "block";
+            }
+           
+    })
 }
 
 // play pause button
 let play = document.querySelector("#play");
 play.addEventListener("click",(e)=>{
-    // e.stopPropagation();
+    if(currentsong.src){
     if(currentsong.paused){
         currentsong.play();
-        play.src = "./svgs/pause.svg"
+        play.src = "./svgs/pause.svg";
+        songnameimg.classList.add("imganim")
     }else{
         currentsong.pause();
-         play.src = "./svgs/play.svg"
+         play.src = "./svgs/play.svg";
+         songnameimg.classList.remove("imganim")
     }
+}
 })
 
 // volume setting
@@ -159,8 +184,16 @@ volumeimg.addEventListener("click",()=>{
 
 // seekbar 
 let seekbar = document.querySelector(".seekbar input")
-seekbar.addEventListener("change",(e)={
-    
+seekbar.addEventListener("click",(e)=>{
+    if(currentsong.src){
+        let seek = (e.offsetX / e.target.getBoundingClientRect().width);
+        if (seek > 100){
+            seek = 100;
+        }else if(seek < 0){
+            seek = 0;
+        }
+        currentsong.currentTime = Math.floor(currentsong.duration * seek);
+    }
 })
 
 // next button
@@ -194,7 +227,6 @@ function secondsToMinutesAndSeconds(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
 
-    // Pad with leading zeros if needed
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
     const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
 
@@ -217,19 +249,67 @@ currentsong.onended = ()=>{
     if((i+1) <a.length){
         playmusic(a[i+1] + ".mp3");
     }
+    else if(i = a.length-1){
+        play.src = "./svgs/play.svg";
+        songnameimg.classList.remove("imganim");
+    }
 }
 
+// playpause from spacebar
 document.addEventListener("keydown",(e)=>{
     if (e.code === 'space' || e.key === " "){
-        console.log("dabb gya")
+        if(currentsong.src){
         if(currentsong.paused){
             currentsong.play();
-            play.src = "./svgs/pause.svg"
+            play.src = "./svgs/pause.svg";
+        songnameimg.classList.add("imganim")
+
         }else{
             currentsong.pause();
-             play.src = "./svgs/play.svg"
+             play.src = "./svgs/play.svg";
+        songnameimg.classList.remove("imganim")
+
         } 
     }
+    }
+})
+
+
+// filter showing album through artist
+let artists = document.querySelectorAll(".artist");
+let showall = document.querySelector("#showall");
+artists.forEach( (artist) => {
+    artist.addEventListener("click",(e)=>{
+        showall.style.display = "block";
+        let txt = e.target.innerText.trim();
+        let cardp = Array.from(document.querySelectorAll(".card"));
+        cardp.forEach((p)=>{
+            let cardtxt= p.children[3].innerText.trim();
+            if (txt === cardtxt){
+                p.style.display = "block";
+            }else{
+                p.style.display = "none";
+            }
+        })
+        
+    })
+})
+
+// showing all albums
+showall.addEventListener("click",()=>{
+    let cards = document.querySelectorAll(".card");
+    cards.forEach((e)=>{
+        e.style.display = "block";
+    })
+    showall.style.display = "none";
+})
+
+
+//play full album from first song
+let palayalbum = document.querySelector(".playalbum");
+palayalbum.addEventListener("click",()=>{
+    let a = gaanaz;
+    playmusic([a[0]] + ".mp3");
 })
 
 

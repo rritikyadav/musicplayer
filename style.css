@@ -97,6 +97,20 @@ body {
   background-color: #2e2d2d;
   cursor: pointer;
 }
+#showall{
+  display:none;
+  margin-top: -15px;
+  margin-left:20px;
+  padding:10px 20px;
+  background-color:#101010;
+  color:white;
+  outline: none;
+  border:none;
+  cursor: pointer;
+  border-radius: 20px;
+  font-size:1rem;
+  word-spacing: 0.1rem;
+}
 
 /* side 2 starting:- */
 
@@ -213,7 +227,7 @@ body {
   z-index:200;
   cursor: pointer;
   accent-color: #1eb760;
-  height:3px;
+  height:2px;
   background-color: white;
 }
 .runsongtime {
@@ -256,6 +270,7 @@ body {
   height:2px;
 }
 .songname {
+  width:50vh;
   display: flex;
   align-items: center;
   gap: 1.8rem;
@@ -265,8 +280,15 @@ body {
 .songname img {
   width: 25px;
   height:25px;
+  border-radius:50%;
   scale: 2;
   user-select: none;
+  filter:invert();
+}
+.imgfil{
+  filter: none !important;
+}
+.imganim{
   animation: songnameanim 2s linear infinite;
 }
 @keyframes songnameanim {
@@ -319,15 +341,14 @@ body {
   cursor: pointer;
   /* user-select: none; */
 }
-.now{
+.playalbum{
   position:absolute;
-  left:35%;
-  top:10px;
-  font-size:1.1rem;
-  font-weight: 700;
-  word-spacing: 0.2rem;
+  right:10%;
+  top:13.5%;
+  scale:1.8;
 }
 .albumname{
+  width:13vw;
   display:flex;
   gap:1rem;
   align-items: center;
@@ -535,7 +556,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 0.6rem;
-    padding:20px 15px 0px 0px;
+    padding:20px 5px 0px 0px;
     box-sizing: border-box;
   }
   .playpause img{
@@ -546,7 +567,6 @@ body {
     display: none;
   }
   .songname {
-    /* display:none; */
     display: flex;
     align-items: center;
     gap: 8px;
