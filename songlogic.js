@@ -2,7 +2,8 @@ let currentsong = new Audio();
 let curralbum;
 let albumnaam;
 let gaanaz = [];
-let inf;
+// const mediaquery = window.matchMedia("(max-width:450px)");
+
 
 
 
@@ -79,7 +80,7 @@ let displayalbums = async ()=>{
         if(e.href.includes("/songs/")){
             let albums = e.href.split("/").slice(4)[0].replaceAll("%20"," ");
             let i = await fetch(`./songs/${albums}/info.json`);
-            inf = await i.json();
+            let inf = await i.json();
 
             albumcards.innerHTML = albumcards.innerHTML + `<div data-name ="${albums}" class="card">
             <img class="playsvg" src="./svgs/cardplay.svg" alt="">
@@ -123,15 +124,12 @@ displayalbums();
     songnameimg.classList.add("imgfil");
 
     let now = gaana.replaceAll(".mp3","").replaceAll(" ","");
-    console.log(now)
     let nextsong  = document.querySelectorAll(".nextsong");
 
     nextsong.forEach((n)=>{
             n.children[0].style.display = "none";
             let x = n.children[2].innerText.replaceAll(" ","");
-            console.log(x)
             if( now === x){
-                console.log(x)
                 n.children[0].style.display = "block";
             }
            
@@ -280,7 +278,6 @@ let artists = document.querySelectorAll(".artist");
 let showall = document.querySelector("#showall");
 artists.forEach( (artist) => {
     artist.addEventListener("click",(e)=>{
-        showall.style.display = "block";
         let txt = e.target.innerText.trim();
         let cardp = Array.from(document.querySelectorAll(".card"));
         cardp.forEach((p)=>{
@@ -296,12 +293,12 @@ artists.forEach( (artist) => {
 })
 
 // showing all albums
-showall.addEventListener("click",()=>{
+let home = document.querySelector(".home")
+home.addEventListener("click",()=>{
     let cards = document.querySelectorAll(".card");
     cards.forEach((e)=>{
         e.style.display = "block";
     })
-    showall.style.display = "none";
 })
 
 

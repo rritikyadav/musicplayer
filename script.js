@@ -43,3 +43,21 @@ if (mediaquery.matches) {
         upnextbar.classList.remove("upnextopen");
     });
 }
+
+
+if (mediaquery.matches) {
+    let artists = document.querySelectorAll(".artist")
+    artists.forEach((e) => {
+        e.addEventListener("click", () => {
+            side1.style.width = "0svw";
+            side1.style.visibility = "hidden";
+        })
+
+    })
+    let home = document.querySelector(".home");
+    home.addEventListener("click", () => {
+        side1.style.width = "0svw";
+        side1.style.visibility = "hidden";
+    })
+    
+}
